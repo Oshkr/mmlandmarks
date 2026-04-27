@@ -8,12 +8,12 @@
 
 Welcome to the MultiModal Landmarks (MMLandmarks) dataset, part of our [CVPR 2026 paper](https://arxiv.org/abs/2512.17492).
 
-With this dataset, the Cross-View Localization is extended for the first time to a continental scale at a fine-grained level.
+With this dataset, Cross-View Localization is extended for the first time to a continental scale at a fine-grained level.
 The dataset collection process is inspired by the Google Landmarks Dataset v2 ([GLDv2](https://arxiv.org/abs/2004.01804)), which is combined with information from OpenStreetMaps ([OSM](https://www.openstreetmap.org/)) and the National Agriculture Imagery Program ([NAIP](https://developers.google.com/earth-engine/datasets/catalog/USDA_NAIP_DOQQ)).
 It has been collected to enable training models for various geospatial tasks, including Geolocalization, Cross-View Ground-to-Satellite and Satellite-to-Ground localization, and Any-to-Any retrieval.
 
 MMLandmarks is built from $18{,}557$ landmarks in the United States of America, which have associated Wikipedia and Wikimedia Commons pages. 
-For each landmark, multiple ground and aerial images are collected, while each landmark has a unique GPS coordinate taken as the geographical center from OSM, and text description collected from Wikimedia Commons.
+For each landmark, multiple ground and aerial images are collected, while each landmark has a unique GPS coordinate taken as the geographical center from OSM, and text descriptions collected from Wikimedia Commons.
 The total dataset contains $329k$ Ground images, $197k$ Aerial images, $18{,}557$ GPS coordinates and $18{,}557$ Text descriptions, split into 3 sets: `train`, `query`, and `index`.
 
 ### Dataset Statistics
@@ -22,11 +22,10 @@ The total dataset contains $329k$ Ground images, $197k$ Aerial images, $18{,}557
 |:-----:|:---------:|:-------------:|:----------------:|:---------------:|:-----------------:|
 | `train` | 17,557 | 310k | 186k | 17,557 | 17,557 |
 | `query` | 1,000 | 18,688 | 10,631 | 1,000 | 1,000 |
-| **Total** | **18,557** | **329k** | **197k** | **18,557** | **18,557** |
 | `index` (ground) | — | 714k | — | — | — |
 | `index` (satellite) | — | — | 100k | 100k | — |
 
-We would like to acknowledge the work of Tobias Weyand, Andre Araujo, Bingyi Cao and Jack Sim, and thank them for their comprehensive [GLDv2 repository](https://github.com/cvdfoundation/google-landmark) which has greatly inspired the structure of this one.
+We would like to acknowledge the work of Tobias Weyand, Andre Araujo, Bingyi Cao and Jack Sim, and thank them for their comprehensive [GLDv2 repository](https://github.com/cvdfoundation/google-landmark) which has greatly inspired the structure for this repository.
 
 ## General Information
 
@@ -44,13 +43,13 @@ Download the following CSV file containing information about all $18{,}557$ land
     - \[`min_lat`,`min_lon`,`max_lat`,`max_lon`\]: bounding box from the landmark OSM polygon.
     - `QID`: string with the landmark's Wikidata identifier.
     - `osm_type`, `osm_id`: string with the type and id for the OSM polygon. Can be found  with `https://www.openstreetmap.org/osm_type/osm_id` to retrieve the associated landmark polygon information.
-    - `category`: string referring to the type of the landmark mined from Wikimedia.   
+    - `category`: string referring to the type of the landmark found from Wikimedia.   
     - `state`: string referring to the state in which the landmark is located.
     - `hierarchical_category`: string corresponding to the landmark's hierarchical label using the hierarchical extension of GLDv2.
 
 ## Getting started
 
-Follow the instructions below for downloading the different parts of the MMLandmarks dataset. `get_started.ipynb` gives a comprehensive introduction for how to navigate the dataset.
+Follow the instructions below for downloading the different parts of the dataset. `get_started.ipynb` gives a comprehensive introduction to navigate the dataset.
 
 
 ## Download `train` set
@@ -60,6 +59,7 @@ The training set contains $17{,}557$ landmarks with: $310k$ Ground images, $186k
 ### Downloading the labels and metadata
 -   `mml_train.csv`: CSV with landmark_id, CommonsCategory, lat, lon fields.
 -   `mml_train_ground.csv`: CSV with landmark_id, images fields.
+-   `mml_train_ground_subset.csv`: CSV with landmark_id, images fields (VLM-filtered outdoor only ground-view subset).
 -   `mml_train_satellite.csv`: CSV with landmark_id, images fields.
 -   `mml_train_text.csv`: CSV with landmark_id, json fields.
 
@@ -135,7 +135,7 @@ The query set contains $1{,}000$ landmarks with: $18{,}688$ Ground images, $1{,}
 
 ### Extra query:
 -   `mml_query_all_satellite.csv`: CSV with `landmark_id`, `images` fields.
--   `mml_query_text_sentences.csv`: CSV with `landmark_id`, `sentences` fields.
+-   `mml_query_text_sentences.csv`: CSV with `landmark_id`, `sentences` fields (modified first sentences where geographical cues are removed).
 
 ### Downloading the data:
 
@@ -185,7 +185,7 @@ The file structure follows that of [GLDv2](https://github.com/cvdfoundation/goog
 
 ## Code & Baseline models
 
-The codebase with the training and evaluation setup for our results can be found here [TODO].
+The codebase with the training and evaluation setup for our results can be found here [Coming Soon].
 
 ## Dataset licenses
 
@@ -207,7 +207,7 @@ Users of this dataset should acknowledge **USDA Farm Production and Conservation
 
 ## Contact
 
-For any comments/questions/advice/suggestions, feel free to create an issue on this GitHub repository. We will 
+For any comments/questions/advice/suggestions, feel free to create an issue on this GitHub repository. 
 
 ## Citation
 
