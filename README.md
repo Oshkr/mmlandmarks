@@ -46,7 +46,7 @@ The dataset can be visually explored [here](https://mmlandmarks.compute.dtu.dk/e
 
 Download the following CSV file containing information about all $18{,}557$ landmarks with the following link:
 
-[https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/metadata/mmlandmarks.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/metadata/mmlandmarks.csv)
+[https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/mmlandmarks.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/mmlandmarks.csv)
 
 - `mmlandmarks.csv` CSV with landmark_id, CommonsCategory, WikipediaPage, lat, lon, min_lat, min_lon, max_lat, max_lon, QID, osm_type, osm_id, category, state, hierarchical_category fields. The file gives a full overview of the dataset.
     - `landmark_id`: integer from 0 to 18557.
