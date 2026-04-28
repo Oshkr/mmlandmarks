@@ -1,12 +1,25 @@
-# MMLandmarks Dataset
 
-[![paper](https://img.shields.io/badge/arXiv-Paper-B3181B.svg)](https://arxiv.org/abs/2512.17492)
+<div align="center">
+
+# 🏢 MMLandmarks Dataset
+
+[![Paper](https://img.shields.io/badge/arXiv-Paper-B3181B.svg)](https://arxiv.org/abs/2512.17492)
 [![Dataset](https://img.shields.io/badge/Dataset-Access-4CAF50)](https://archive.compute.dtu.dk/files/public/projects/MMLandmarks)
 [![Website](https://img.shields.io/badge/Project-Website-87CEEB)](https://mmlandmarks.compute.dtu.dk/)
 
+</div>
+
 ## Description
 
-Welcome to the MultiModal Landmarks (MMLandmarks) dataset, part of our [CVPR 2026 paper](https://arxiv.org/abs/2512.17492).
+Welcome to the MultiModal Landmarks (MMLandmarks) dataset, part of our [CVPR 2026 paper](https://arxiv.org/abs/2512.17492): 
+
+<div align="center">
+
+**MMLandmarks: a Cross-View Instance-Level Benchmark for Geo-Spatial Understanding**
+
+</div>
+
+The codebase with the training and evaluation setup for our results can be found [here](https://github.com/Oshkr/mml-codebase).
 
 With this dataset, Cross-View Localization is extended for the first time to a continental scale at a fine-grained level.
 The dataset collection process is inspired by the Google Landmarks Dataset v2 ([GLDv2](https://arxiv.org/abs/2004.01804)), which is combined with information from OpenStreetMaps ([OSM](https://www.openstreetmap.org/)) and the National Agriculture Imagery Program ([NAIP](https://developers.google.com/earth-engine/datasets/catalog/USDA_NAIP_DOQQ)).
@@ -183,9 +196,7 @@ The file structure follows that of [GLDv2](https://github.com/cvdfoundation/goog
 - a text json from the train set with id `0123456789abcdef` is stored in `train/text/0/1/2/0123456789abcdef.json`
 
 
-## Code & Baseline models
 
-The codebase with the training and evaluation setup for our results can be found here [Coming Soon].
 
 ## Dataset licenses
 
