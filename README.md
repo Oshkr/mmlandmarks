@@ -11,6 +11,8 @@
 
 ## Description
 
+Explore MMLandmarks [[here](https://mmlandmarks.compute.dtu.dk/explore.html)].
+
 Welcome to the MultiModal Landmarks (MMLandmarks) dataset, part of our [CVPR 2026 paper](https://arxiv.org/abs/2512.17492): 
 
 <div align="center">
@@ -33,16 +35,14 @@ The total dataset contains $329k$ Ground images, $197k$ Aerial images, $18{,}557
 
 | Split | Landmarks | Ground Images | Satellite Images | GPS Coordinates | Text Descriptions |
 |:-----:|:---------:|:-------------:|:----------------:|:---------------:|:-----------------:|
-| `train` | 17,557 | 310k | 186k | 17,557 | 17,557 |
+| `train` | 17,557 | 310,661 | 186,574 | 17,557 | 17,557 |
 | `query` | 1,000 | 18,688 | 10,631 | 1,000 | 1,000 |
-| `index` (ground) | — | 714k | — | — | — |
-| `index` (satellite) | — | — | 100k | 100k | — |
+| `index` (ground) | — | 714,554 | — | — | — |
+| `index` (satellite) | — | — | 99,539 | 99,539 | — |
 
 We would like to acknowledge the work of Tobias Weyand, Andre Araujo, Bingyi Cao and Jack Sim, and thank them for their comprehensive [GLDv2 repository](https://github.com/cvdfoundation/google-landmark) which has greatly inspired the structure for this repository.
 
 ## General Information
-
-The dataset can be visually explored [here](https://mmlandmarks.compute.dtu.dk/explore.html).
 
 Download the following CSV file containing information about all $18{,}557$ landmarks with the following link:
 
@@ -64,17 +64,63 @@ Download the following CSV file containing information about all $18{,}557$ land
 
 Follow the instructions below for downloading the different parts of the dataset. `get_started.ipynb` gives a comprehensive introduction to navigate the dataset.
 
+### Dataset structure
+
+After downloading and extracting the full dataset, the directory structure is:
+
+```
+MMLandmarks/
+├── mmlandmarks.csv│
+├── train/
+│   ├── mml_train.csv                       
+│   ├── mml_train_ground.csv                
+│   ├── mml_train_ground_subset.csv         
+│   ├── mml_train_satellite.csv            
+│   ├── mml_train_text.csv                  
+│   ├── mml_train_licenses.csv              
+│   ├── ground/                            
+│   │   └── {a}/{b}/{c}/{image_id}.jpg
+│   ├── satellite/                          
+│   │   └── {a}/{b}/{c}/{image_id}.png
+│   └── text/                              
+│       └── {a}/{b}/{c}/{text_id}.json
+│
+├── index/
+│   ├── mml_index_ground.csv                
+│   ├── mml_index_satellite.csv             
+│   ├── ground/                             
+│   │   └── {a}/{b}/{c}/{image_id}.jpg
+│   └── satellite/                          
+│       └── {a}/{b}/{c}/{image_id}.png
+│
+└── query/
+    ├── mml_query.csv                       
+    ├── mml_query_ground.csv                
+    ├── mml_query_satellite.csv             
+    ├── mml_query_text.csv                  
+    ├── mml_query_all_satellite.csv         
+    ├── mml_query_text_sentences.csv        
+    ├── mml_query_licenses.csv              
+    ├── ground/                            
+    │   └── {a}/{b}/{c}/{image_id}.jpg
+    ├── satellite/                          
+    │   └── {a}/{b}/{c}/{image_id}.png
+    └── text/                            
+        └── {a}/{b}/{c}/{text_id}.json
+```
+
+Where `{a}`, `{b}`, `{c}` are the first three characters of the image/json id. For example, a ground image with id `0123456789abcdef` is stored at `train/ground/0/1/2/0123456789abcdef.jpg`.
 
 ## Download `train` set
 
 The training set contains $17{,}557$ landmarks with: $310k$ Ground images, $186k$ Satellite images, $17{,}557$ GPS coordinates and $17{,}557$ Text descriptions
 
 ### Downloading the labels and metadata
--   `mml_train.csv`: CSV with landmark_id, CommonsCategory, lat, lon fields.
--   `mml_train_ground.csv`: CSV with landmark_id, images fields.
--   `mml_train_ground_subset.csv`: CSV with landmark_id, images fields (VLM-filtered outdoor only ground-view subset).
--   `mml_train_satellite.csv`: CSV with landmark_id, images fields.
--   `mml_train_text.csv`: CSV with landmark_id, json fields.
+-   `train/mml_train.csv`: CSV with landmark_id, CommonsCategory, lat, lon fields. Available at: [https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/train/mml_train.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/train/mml_train.csv) 
+-   `train/mml_train_ground.csv`: CSV with landmark_id, images fields. Available at: [https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/train/mml_train_ground.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/train/mml_train_ground.csv) 
+-   `train/mml_train_ground_subset.csv`: CSV with landmark_id, images fields (VLM-filtered outdoor only ground-view subset). Available at: [https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/train/mml_train_ground_subset.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/train/mml_train_ground_subset.csv) 
+-   `train/mml_train_satellite.csv`: CSV with landmark_id, images fields. Available at: [https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/train/mml_train_satellite.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/train/mml_train_satellite.csv)  
+-   `train/mml_train_text.csv`: CSV with landmark_id, json fields. Available at: [https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/train/mml_train_text.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/train/mml_train_text.csv) 
 
 ### Downloading the data:
 
@@ -103,13 +149,14 @@ bash ../mml-download.sh train ground 80
 ## Download `index` set
 
 The Index set is a large collection of Ground and Aerial images used as a challenging gallery from which to retrieve the correct corresponding landmark information:
-- Ground index: $714k$ images from the GLDv2 index set, where the landmarks in MMLandmarks are filtered out.
-- Satellite index: $100k$ images sampled from the NAIP, with the same distribution as MMLandmarks.
-- GPS index: $100k$ GPS coordinates taken as the centers of the Satellite index set images.
+- Ground index: $714{,}554$ images from the GLDv2 index set, where the landmarks in MMLandmarks are filtered out.
+- Satellite index: $99{,}539$ images sampled from the NAIP, with the same distribution as MMLandmarks.
+- GPS index: $99{,}539$ GPS coordinates taken as the centers of the Satellite index set images.
 
 ### Downloading the labels and metadata
--   `mml_index_ground.csv`: CSV with images, gldv2_id fields.
--   `mml_index_satellite.csv`: CSV with images, lat, lon, year fields.
+-   `index/mml_index_ground.csv`: CSV with images, gldv2_id fields. Available at: [https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/index/mml_index_ground.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/index/mml_index_ground.csv) 
+
+-   `index/mml_index_satellite.csv`: CSV with images, lat, lon, year fields. Available at: [https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/index/mml_index_satellite.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/index/mml_index_satellite.csv) 
 
 ### Downloading the data:
 
@@ -141,14 +188,14 @@ bash ../mml-download.sh index satellite 120
 The query set contains $1{,}000$ landmarks with: $18{,}688$ Ground images, $1{,}000$ Satellite images, $1{,}000$ GPS coordinates and $1{,}000$ Text descriptions. While only the latest satellite images are used for retrieval in the original paper, we provide the full satellite query set ($10{,}631$ images).
 
 ### Downloading the labels and metadata
--   `mml_query.csv`: CSV with `landmark_id`, `CommonsCategory`, `lat`, `lon` fields.
--   `mml_query_ground.csv`: CSV with `landmark_id`, `images` fields.
--   `mml_query_satellite.csv`: CSV with `landmark_id`, `images` fields.
--   `mml_query_text.csv`: CSV with `landmark_id`, `json` fields.
+-   `query/mml_query.csv`: CSV with `landmark_id`, `CommonsCategory`, `lat`, `lon` fields. Available at: [https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/query/mml_query.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/query/mml_query.csv) 
+-   `query/mml_query_ground.csv`: CSV with `landmark_id`, `images` fields. Available at: [https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/query/mml_query_ground.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/query/mml_query_ground.csv) 
+-   `query/mml_query_satellite.csv`: CSV with `landmark_id`, `images` fields. Available at: [https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/query/mml_query_satellite.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/query/mml_query_satellite.csv) 
+-   `query/mml_query_text.csv`: CSV with `landmark_id`, `json` fields. Available at: [https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/query/mml_query_text.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/query/mml_query_text.csv) 
 
 ### Extra query:
--   `mml_query_all_satellite.csv`: CSV with `landmark_id`, `images` fields.
--   `mml_query_text_sentences.csv`: CSV with `landmark_id`, `sentences` fields (modified first sentences where geographical cues are removed).
+-   `query/mml_query_all_satellite.csv`: CSV with `landmark_id`, `images` fields. Available at: [https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/query/mml_query_all_satellite.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/query/mml_query_all_satellite.csv) 
+-   `query/mml_query_text_sentences.csv`: CSV with `landmark_id`, `sentences` fields (modified first sentences where geographical cues are removed). Available at: [https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/query/mml_query_text_sentences.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/query/mml_query_text_sentences.csv) 
 
 ### Downloading the data:
 
@@ -202,8 +249,8 @@ The file structure follows that of [GLDv2](https://github.com/cvdfoundation/goog
 
 ### Wikimedia Commons licenses:
 The `ground` images are licensed under Creative Commons and Public Domain licenses. The licenses for all images are available here:
--   `mml_train_licenses.csv`: CSV with `landmark_id`, `images`, `license` fields.
--   `mml_query_licenses.csv`: CSV with `landmark_id`, `images`, `license` fields.
+-   `train/mml_train_licenses.csv`: CSV with `landmark_id`, `images`, `license` fields. Available at: [https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/train/mml_train_licenses.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/train/mml_train_licenses.csv)
+-   `query/mml_query_licenses.csv`: CSV with `landmark_id`, `images`, `license` fields. Available at: [https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/query/mml_query_licenses.csv](https://archive.compute.dtu.dk/downloads/public/projects/MMLandmarks/query/mml_query_licenses.csv)
 
 ### National Agriculture Imagery Program (NAIP) license:
 The `satellite` images are provided by the U.S. Department of Agriculture, Farm Service Agency, and are considered public domain information.
@@ -218,11 +265,11 @@ Users of this dataset should acknowledge **USDA Farm Production and Conservation
 
 ## Contact
 
-For any comments/questions/advice/suggestions, feel free to create an issue on this GitHub repository. 
+For any comments/questions/advice/suggestions, feel free to create an issue on this GitHub repository.
 
 ## Citation
 
-If you make use of this dataset, please consider giving the repository a star and citing our paper as:
+If you make use of this dataset, consider giving the repository a star and citing our paper as:
 ```
 @InProceedings{Kristoffersen_2026_MMLandmarks,
   author    = {Oskar Kristoffersen and Alba Reinders and Morten R. Hannemose and Anders B. Dahl and Dim P. Papadopoulos},

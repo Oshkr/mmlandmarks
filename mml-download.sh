@@ -18,7 +18,7 @@
 #
 # Run from the directory where you want the data to land.
 # Files are extracted into ./<modality>/h1/h2/h3/<hash>.<ext>
-# Tars are deleted after successful extraction.
+# Tars & md5sum are deleted after successful extraction.
 
 set -uo pipefail
 
@@ -103,7 +103,7 @@ download_verify_and_extract() {
     local md5_path="${dest}/${md5_name}"
 
     echo "[${modality}] Downloading ${tar_name}..."
-    if ! curl -fSL --progress-bar -o "$tar_path" "${shard_url}/${tar_name}"; then
+    if ! curl -fsSL -o "$tar_path" "${shard_url}/${tar_name}"; then
         echo "ERROR: failed to download ${shard_url}/${tar_name}"
         return 1
     fi
@@ -118,6 +118,7 @@ download_verify_and_extract() {
 
     if [[ "$md5_computed" == "$md5_expected" ]]; then
         tar -xf "$tar_path" -C "$dest"
+        rm "$tar_path" "$md5_path"
         echo "[${modality}] ${tar_name} — OK (extracted, tar removed)"
     else
         echo "ERROR: MD5 mismatch for ${tar_name}"
